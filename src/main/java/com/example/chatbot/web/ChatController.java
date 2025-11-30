@@ -19,7 +19,7 @@ public class ChatController {
     }
 
     @GetMapping(value = "/chat",produces = MediaType.TEXT_PLAIN_VALUE/*to get the output without the spelling mistakes aside from the é,à*/)
-    public Flux<String> chat(@RequestParam String query) {
+    public String chat(@RequestParam String query) {
         return aiAgent.askAgent(query);
     }
 
