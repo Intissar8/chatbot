@@ -16,3 +16,6 @@
 <img src="pictures/get a employee using MCP inspector.jpg"/>
 <h2>Telegram chatbot</h2>
 <img src="pictures/telegram chatbot.jpg"/>
+<h2>Telegram chatbot avec RAG</h2>
+<img src="pictures/RAG_chatbot.jpg"/>
+

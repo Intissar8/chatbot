@@ -1,6 +1,7 @@
 package com.example.chatbot.telegram;
 
 import com.example.chatbot.agents.AIAgent;
+import com.example.chatbot.rag.RagClient;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -19,10 +20,14 @@ public class TelegramBot extends TelegramLongPollingBot {
     @Value("${telegram.api.key}")
     private String telegramBotToken;
     private AIAgent  aiAgent;
+    private RagClient ragClient;
 
-    public TelegramBot(AIAgent aiAgent) {
+
+    public TelegramBot(AIAgent aiAgent, RagClient ragClient) {
         this.aiAgent = aiAgent;
+        this.ragClient = ragClient;
     }
+
 
     //this is how the ai agent will subscribe to the api created using the telegram api key
     @PostConstruct//this method will be initiated right after the constructor
@@ -47,7 +52,8 @@ public class TelegramBot extends TelegramLongPollingBot {
             Long chatId = telegramRequest.getMessage().getChatId();
             sendTypingQuestion(chatId);
             //we use the message to ask the ai agent
-            String answer = aiAgent.askAgent(messageText);
+           // String answer = aiAgent.askAgent(messageText);
+            String answer = ragClient.askRag(messageText, String.valueOf(chatId));
             sendTextMessage(chatId,answer);
         } catch (TelegramApiException e) {
             throw new RuntimeException(e);
